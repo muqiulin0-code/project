@@ -1,0 +1,18 @@
+{
+  "exercise": "PyTorch CIFAR-10 classifier",
+  "acceptance": "test accuracy > 70%",
+  "passed": true,
+  "test_accuracy": 0.9012,
+  "test_loss": 0.7324533653259278,
+  "best_val_accuracy": 0.9046,
+  "best_epoch": 20,
+  "epochs": 20,
+  "batch_size": 128,
+  "learning_rate": 0.1,
+  "seed": 42,
+  "device": "cpu",
+  "torch_version": "2.14.0+cpu",
+  "training_seconds": 750.4131192690002,
+  "parameter_count": 1941546,
+  "checkpoint": "best_model.pt"
+}

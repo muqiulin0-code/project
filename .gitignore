@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Data, models, and generated outputs
+data/
+models/
+artifacts/cifar10/*.pt
+artifacts/cifar10/*.pth
+outputs/
+
+# CMake / C++
+build/
+cmake-build-*/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
