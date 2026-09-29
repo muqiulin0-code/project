@@ -19,5 +19,8 @@ cmake-build-*/
 
 # Editors / OS
 .idea/
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.~lock.*#
 .DS_Store

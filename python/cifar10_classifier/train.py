@@ -123,7 +123,7 @@ def evaluate(
 
 def save_history(history: list[dict[str, float]], output_dir: Path) -> None:
     with (output_dir / "history.csv").open("w", newline="", encoding="utf-8") as file:
-        writer = csv.DictWriter(file, fieldnames=list(history[0]))
+        writer = csv.DictWriter(file, fieldnames=list(history[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(history)
 

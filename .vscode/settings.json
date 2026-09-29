@@ -1,0 +1,26 @@
+{
+    "cmake.sourceDirectory": "${workspaceFolder}/cpp",
+    "ROS2.distro": "lyrical",
+    "python.autoComplete.extraPaths": [
+        "${workspaceFolder}/python",
+        "/opt/ros/lyrical/opt/gz_sim_vendor/lib/python",
+        "/opt/ros/lyrical/opt/gz_transport_vendor/lib/python",
+        "/opt/ros/lyrical/opt/sdformat_vendor/lib/python",
+        "/opt/ros/lyrical/opt/gz_msgs_vendor/lib/python",
+        "/opt/ros/lyrical/opt/gz_math_vendor/lib/python",
+        "/opt/ros/lyrical/lib/python3.14/site-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/python",
+        "/opt/ros/lyrical/opt/gz_sim_vendor/lib/python",
+        "/opt/ros/lyrical/opt/gz_transport_vendor/lib/python",
+        "/opt/ros/lyrical/opt/sdformat_vendor/lib/python",
+        "/opt/ros/lyrical/opt/gz_msgs_vendor/lib/python",
+        "/opt/ros/lyrical/opt/gz_math_vendor/lib/python",
+        "/opt/ros/lyrical/lib/python3.14/site-packages"
+    ],
+    "python-envs.defaultEnvManager": "ms-python.python:conda",
+    "python-envs.defaultPackageManager": "ms-python.python:conda",
+    "python.defaultInterpreterPath": "${env:HOME}/anaconda3/envs/pytorch/bin/python",
+    "python.terminal.activateEnvironment": true
+}

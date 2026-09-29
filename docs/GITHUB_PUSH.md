@@ -1,33 +1,38 @@
-# 推送到 GitHub
+# 同步到 GitHub
 
-## 方式 A：使用 VS Code（推荐）
+当前仓库已经配置远程地址：
 
-1. 在 VS Code 打开本目录。
-2. 打开 Source Control，点击 `Publish Branch`。
-3. 如果已经登录 GitHub，选择账号、仓库名和 Public/Private。
-4. 首次发布后即可按需提交并点击 `Sync Changes`。
-
-## 方式 B：先手动创建空仓库，再使用命令
-
-在 GitHub 网页创建一个**不要初始化 README**的空仓库，然后执行：
-
-```bash
-git remote add origin git@github.com:<用户名>/<仓库名>.git
-git push -u origin main
+```text
+origin  https://github.com/muqiulin0-code/project.git
+branch  main
 ```
 
-如果使用 HTTPS：
+## 推荐流程：VS Code
+
+1. 在 VS Code 打开本项目。
+2. 确认 Source Control 右上角已经显示 GitHub 账号 `muqiulin0-code`。
+3. 检查 Changes，确认没有提交数据集、模型权重、`.venv/` 或临时锁文件。
+4. 填写提交信息并点击 **Commit**。
+5. 点击 **Sync Changes**，本地 `main` 就会同步到 `origin/main`。
+
+## 命令行流程
 
 ```bash
-git remote add origin https://github.com/<用户名>/<仓库名>.git
-git push -u origin main
+conda activate pytorch
+make check
+
+git status
+git add .
+git commit -m "chore: use shared conda pytorch environment"
+git push origin main
 ```
 
-VS Code 的 GitHub 登录可以用于 HTTPS 推送，但 Git 本身仍需要正确配置用户名和邮箱：
+Git 本身不会自动复用 VS Code 扩展里的登录状态；如果命令行推送要求认证，优先在 VS Code 的 Source Control 中点击 **Sync Changes**，或在第一次推送时完成 GitHub 登录。
 
-```bash
-git config --global user.name "你的名字"
-git config --global user.email "你的 GitHub 邮箱"
-```
+不要提交以下内容，本仓库的 `.gitignore` 已处理：
 
-注意：不要提交 `.venv/`、CIFAR 数据集或大体积模型权重；本仓库的 `.gitignore` 已处理这些文件。
+- `.venv/`
+- `data/` 和 CIFAR-10 数据集
+- `models/`
+- `artifacts/cifar10/` 中的模型权重
+- `.vscode/` 中的本地数据库和缓存

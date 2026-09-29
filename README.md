@@ -12,36 +12,35 @@
 | CMake 多文件 C++ 工程 | `cpp/CMakeLists.txt` | `make cpp` |
 | NumPy 3D 旋转矩阵 <-> 四元数 | `python/rotation_conversions/` | `make rotation` |
 
-## 已验证环境
+## 项目环境
 
-当前仓库已在下面的机器配置上完成测试和训练：
+本项目不再创建 `.venv`，统一引用已经创建好的 conda 环境 `pytorch`：
 
-- Ubuntu 26.04.1 LTS（路线图最低要求是 Ubuntu 22.04 LTS）
-- Python 3.14.6（代码要求 Python 3.10+）
-- PyTorch 2.14.0 CPU 版
-- torchvision 0.29.0 CPU 版
-- NumPy 2.5.3
-- OpenCV 4.14.0
-- CMake 4.2.3（代码最低要求 3.22）
-- GCC 15.2.0，C++20
-
-代码的 `--device auto` 会在存在 CUDA 时自动使用 GPU；本次验收使用 CPU，结果仍超过 70%。
-
-## 快速开始
-
-```bash
-git clone <你的仓库地址>
-cd <仓库目录>
-bash scripts/bootstrap.sh
-source .venv/bin/activate
+```text
+环境名称: pytorch
+解释器:   ${HOME}/anaconda3/envs/pytorch/bin/python
 ```
 
-如果只需要 CPU 版 PyTorch，可使用：
+VS Code 已通过 `.vscode/settings.json` 选择该解释器；`Makefile` 和检查脚本默认使用 `conda run -n pytorch`。如果以后修改了 conda 环境名，可在命令前覆盖：
 
 ```bash
-python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements-cpu.txt
-.venv/bin/python -m pip install -e . --no-deps
+CONDA_ENV=新的环境名 make check
+```
+
+`requirements.txt` 和 `requirements-cpu.txt` 只保留给 GitHub Actions 等隔离环境使用，不会在本地项目中重新安装一份 PyTorch。
+
+### 直接使用环境
+
+```bash
+conda activate pytorch
+python scripts/check_environment.py
+```
+
+首次切换项目环境时，只需把本项目以 editable 模式注册到现有 conda 环境，不会重新安装 PyTorch：
+
+```bash
+make setup
+# 等价于 conda run -n pytorch python -m pip install -e . --no-deps
 ```
 
 运行全部检查：
@@ -49,6 +48,20 @@ python3 -m venv .venv
 ```bash
 make check
 ```
+
+## 已验证环境
+
+- Ubuntu 26.04.1 LTS（路线图最低要求是 Ubuntu 22.04 LTS）
+- conda 环境 `pytorch`，Python 3.12.14
+- PyTorch 2.14.0 + CUDA 13.0
+- torchvision 0.29.0 + CUDA 13.0
+- NumPy 2.5.3
+- OpenCV 4.14.0
+- Matplotlib 3.11.2
+- CMake 4.2.3（代码最低要求 3.22）
+- GCC 15.2.0，C++20
+
+代码的 `--device auto` 会优先使用 CUDA，当前 conda 环境已检测到 RTX 4060 Laptop GPU。
 
 ## 1. PyTorch CIFAR-10
 
@@ -84,11 +97,12 @@ python -m cifar10_classifier.train --data-dir data --output-dir artifacts/cifar1
 | 指标 | 本次结果 |
 | --- | ---: |
 | 官方测试集准确率 | **90.12%** |
-| 最佳验证集准确率 | 90.46% |
+| 最佳验证集准确率 | 90.72% |
 | 训练轮数 | 20 |
 | 模型参数量 | 1,941,546 |
-| 设备 | CPU（PyTorch 2.14.0+cpu） |
-| 训练耗时 | 750.4 秒 |
+| 设备 | CUDA（RTX 4060 Laptop GPU） |
+| 环境 | conda `pytorch`，PyTorch 2.14.0+cu130 |
+| 训练耗时 | 68.2 秒 |
 | 验收结果 | **通过（> 70%）** |
 <!-- CIFAR_METRIC_END -->
 

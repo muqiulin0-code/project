@@ -6,7 +6,7 @@
 
 完成本仓库后，应能独立回答和操作以下内容：
 
-- 使用 Python 虚拟环境隔离项目依赖，并知道 `PYTHONPATH`、`pip`、`venv` 的作用。
+- 使用 conda 环境统一管理 Python、PyTorch 和 OpenCV 依赖，并理解解释器、`PYTHONPATH`、`pip`、`conda run` 的作用。
 - 使用 NumPy 表示矩阵、理解广播和矩阵乘法，并实现旋转矩阵与四元数之间的数学转换。
 - 使用 OpenCV 读取摄像头/视频、转换颜色空间、调用 Haar 或 DNN 检测器、绘制结果。
 - 使用 PyTorch 构建 `Dataset`/`DataLoader`、搭建 CNN、完成训练/验证/测试、保存最佳权重和训练曲线。

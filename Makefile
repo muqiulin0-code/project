@@ -1,13 +1,14 @@
-PYTHON ?= .venv/bin/python
+CONDA_ENV ?= pytorch
+PYTHON ?= conda run -n $(CONDA_ENV) python
 CMAKE ?= cmake
 
-.PHONY: setup test cpp check train detect rotation
+.PHONY: setup env test cpp check train detect rotation
 
 setup:
-	python3 -m venv .venv
-	$(PYTHON) -m pip install --upgrade pip
-	$(PYTHON) -m pip install -r requirements.txt
 	$(PYTHON) -m pip install -e . --no-deps
+
+env:
+	$(PYTHON) scripts/check_environment.py
 
 test:
 	$(PYTHON) -m pytest
