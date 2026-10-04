@@ -12,6 +12,8 @@
 | CMake 多文件 C++ 工程 | `cpp/CMakeLists.txt` | `make cpp` |
 | NumPy 3D 旋转矩阵 <-> 四元数 | `python/rotation_conversions/` | `make rotation` |
 
+表格中的 `make` 命令已经指向共享 conda 环境，终端里即使没有先执行 `conda activate` 也可以直接运行。Python 代码示例统一使用 `./scripts/run_python.sh`，它会自动选择同一个 `pytorch` 环境的解释器。
+
 ## 项目环境
 
 本项目不再创建 `.venv`，统一引用已经创建好的 conda 环境 `pytorch`：
@@ -49,6 +51,20 @@ make setup
 make check
 ```
 
+### 终端提示 `conda: command not found`？
+
+这通常表示当前终端还没有初始化 conda，不代表 PyTorch 没有安装。`Makefile`、检查脚本和 `./scripts/run_python.sh` 都会在找不到 `conda` 命令时，直接使用共享环境解释器：
+
+```text
+~/anaconda3/envs/pytorch/bin/python
+```
+
+因此下面的 Python 示例无需先激活环境；如果要使用系统中的 `python` 命令，才需要先执行：
+
+```bash
+conda activate pytorch
+```
+
 ## 已验证环境
 
 - Ubuntu 26.04.1 LTS（路线图最低要求是 Ubuntu 22.04 LTS）
@@ -68,7 +84,7 @@ make check
 训练默认使用 45,000 张训练图、5,000 张验证图和官方 10,000 张测试图。默认模型是一个约 194 万参数的紧凑残差 CNN。
 
 ```bash
-python -m cifar10_classifier.train \
+./scripts/run_python.sh -m cifar10_classifier.train \
   --data-dir data \
   --output-dir artifacts/cifar10 \
   --epochs 20 \
@@ -86,9 +102,9 @@ python -m cifar10_classifier.train \
 如果 Toronto 数据源较慢，可安装一次 `pyarrow`，使用 Hugging Face 国内镜像转换：
 
 ```bash
-python -m pip install pyarrow
-python scripts/prepare_hf_cifar10.py
-python -m cifar10_classifier.train --data-dir data --output-dir artifacts/cifar10
+./scripts/run_python.sh -m pip install pyarrow
+./scripts/run_python.sh scripts/prepare_hf_cifar10.py
+./scripts/run_python.sh -m cifar10_classifier.train --data-dir data --output-dir artifacts/cifar10
 ```
 
 本次实测结果：
@@ -111,7 +127,7 @@ python -m cifar10_classifier.train --data-dir data --output-dir artifacts/cifar1
 重新评估最佳权重：
 
 ```bash
-python -m cifar10_classifier.evaluate artifacts/cifar10/best_model.pt
+./scripts/run_python.sh -m cifar10_classifier.evaluate artifacts/cifar10/best_model.pt
 ```
 
 ## 2. OpenCV 实时检测
@@ -119,13 +135,13 @@ python -m cifar10_classifier.evaluate artifacts/cifar10/best_model.pt
 摄像头实时人脸检测：
 
 ```bash
-python -m opencv_detection --source 0 --mode face
+./scripts/run_python.sh -m opencv_detection --source 0 --mode face
 ```
 
 视频人脸检测并保存标注结果：
 
 ```bash
-python -m opencv_detection \
+./scripts/run_python.sh -m opencv_detection \
   --source path/to/input.mp4 \
   --mode face \
   --output outputs/face_detection.mp4
@@ -134,8 +150,8 @@ python -m opencv_detection \
 物体检测使用 MobileNet-SSD：
 
 ```bash
-python -m opencv_detection.download_models
-python -m opencv_detection --source 0 --mode object
+./scripts/run_python.sh -m opencv_detection.download_models
+./scripts/run_python.sh -m opencv_detection --source 0 --mode object
 ```
 
 按 `q` 或 `Esc` 退出；无图形界面时可加 `--no-show`。
@@ -160,7 +176,7 @@ CMake 工程展示了 `add_library`、`add_executable`、`target_include_directo
 ## 4. NumPy 旋转转换
 
 ```bash
-python -m rotation_conversions --axis 0 0 1 --angle 90
+./scripts/run_python.sh -m rotation_conversions --axis 0 0 1 --angle 90
 ```
 
 约定：
@@ -173,7 +189,7 @@ python -m rotation_conversions --axis 0 0 1 --angle 90
 ## 测试
 
 ```bash
-python -m pytest
+./scripts/run_python.sh -m pytest
 make cpp
 ```
 

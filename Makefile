@@ -1,5 +1,11 @@
 CONDA_ENV ?= pytorch
-PYTHON ?= conda run -n $(CONDA_ENV) python
+CONDA_ROOT ?= $(HOME)/anaconda3
+CONDA_BIN ?= $(shell command -v conda 2>/dev/null)
+ifneq ($(strip $(CONDA_BIN)),)
+PYTHON ?= $(CONDA_BIN) run -n $(CONDA_ENV) python
+else
+PYTHON ?= $(CONDA_ROOT)/envs/$(CONDA_ENV)/bin/python
+endif
 CMAKE ?= cmake
 
 .PHONY: setup env test cpp check train detect rotation
