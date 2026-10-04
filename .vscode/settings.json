@@ -22,5 +22,6 @@
     "python-envs.defaultEnvManager": "ms-python.python:conda",
     "python-envs.defaultPackageManager": "ms-python.python:conda",
     "python.defaultInterpreterPath": "${env:HOME}/anaconda3/envs/pytorch/bin/python",
-    "python.terminal.activateEnvironment": true
+    "python.terminal.activateEnvironment": true,
+    "terminal.integrated.cwd": "${workspaceFolder}"
 }

@@ -18,6 +18,7 @@ branch  main
 ## 命令行流程
 
 ```bash
+cd /home/muqiu/PycharmProjects/project
 make check
 
 git status
@@ -27,6 +28,8 @@ git push origin main
 ```
 
 `make check` 会自动引用共享 conda 环境，不需要先执行 `conda activate`；Python 示例命令使用 `./scripts/run_python.sh` 也可以避免当前终端没有加载 conda 的问题。
+
+如果提示 `make: *** 没有规则可制作目标 "check"，停止`，通常是终端当前目录不是项目根目录。先执行 `cd /home/muqiu/PycharmProjects/project`，或使用 `make -C /home/muqiu/PycharmProjects/project check`。
 
 Git 本身不会自动复用 VS Code 扩展里的登录状态；如果命令行推送要求认证，优先在 VS Code 的 Source Control 中点击 **Sync Changes**，或在第一次推送时完成 GitHub 登录。
 

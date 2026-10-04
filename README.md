@@ -14,6 +14,18 @@
 
 表格中的 `make` 命令已经指向共享 conda 环境，终端里即使没有先执行 `conda activate` 也可以直接运行。Python 代码示例统一使用 `./scripts/run_python.sh`，它会自动选择同一个 `pytorch` 环境的解释器。
 
+所有 `make` 命令必须在项目根目录运行。如果 VS Code 终端提示符显示为 `~$`，先执行：
+
+```bash
+cd /home/muqiu/PycharmProjects/project
+```
+
+VS Code 工作区配置已设置 `terminal.integrated.cwd`，以后新建终端会默认进入项目根目录。也可以在任意目录使用：
+
+```bash
+make -C /home/muqiu/PycharmProjects/project rotation
+```
+
 ## 项目环境
 
 本项目不再创建 `.venv`，统一引用已经创建好的 conda 环境 `pytorch`：
