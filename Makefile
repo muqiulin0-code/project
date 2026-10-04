@@ -1,10 +1,13 @@
 CONDA_ENV ?= pytorch
 CONDA_ROOT ?= $(HOME)/anaconda3
+CONDA_PYTHON := $(CONDA_ROOT)/envs/$(CONDA_ENV)/bin/python
 CONDA_BIN ?= $(shell command -v conda 2>/dev/null)
-ifneq ($(strip $(CONDA_BIN)),)
+ifneq ($(wildcard $(CONDA_PYTHON)),)
+PYTHON ?= $(CONDA_PYTHON)
+else ifneq ($(strip $(CONDA_BIN)),)
 PYTHON ?= $(CONDA_BIN) run -n $(CONDA_ENV) python
 else
-PYTHON ?= $(CONDA_ROOT)/envs/$(CONDA_ENV)/bin/python
+PYTHON ?= $(CONDA_PYTHON)
 endif
 CMAKE ?= cmake
 

@@ -35,7 +35,7 @@ make -C /home/muqiu/PycharmProjects/project rotation
 解释器:   ${HOME}/anaconda3/envs/pytorch/bin/python
 ```
 
-VS Code 已通过 `.vscode/settings.json` 选择该解释器；`Makefile` 和检查脚本默认使用 `conda run -n pytorch`。如果以后修改了 conda 环境名，可在命令前覆盖：
+VS Code 已通过 `.vscode/settings.json` 选择该解释器；`Makefile` 和检查脚本优先直接调用上述解释器路径，避免某些终端的 conda shell hook 把 `conda run -n pytorch` 错误解析成 base。环境不存在或路径不同时，也会回退到 `conda run -n pytorch`。如果以后修改了 conda 环境名，可在命令前覆盖：
 
 ```bash
 CONDA_ENV=新的环境名 make check
@@ -54,7 +54,7 @@ python scripts/check_environment.py
 
 ```bash
 make setup
-# 等价于 conda run -n pytorch python -m pip install -e . --no-deps
+# 优先等价于 ~/anaconda3/envs/pytorch/bin/python -m pip install -e . --no-deps
 ```
 
 运行全部检查：

@@ -14,7 +14,10 @@ EXPECTED_ENV = os.environ.get("CONDA_ENV", "pytorch")
 def main() -> None:
     failures: list[str] = []
     prefix = Path(sys.prefix)
-    environment_name = os.environ.get("CONDA_DEFAULT_ENV") or prefix.name
+    # Use the interpreter prefix itself, not CONDA_DEFAULT_ENV. Some shell
+    # hooks leave CONDA_DEFAULT_ENV=pytorch while conda run actually selects
+    # the base interpreter, which previously made this check pass incorrectly.
+    environment_name = prefix.name
     if environment_name != EXPECTED_ENV:
         failures.append(
             f"active conda environment is '{environment_name}', expected '{EXPECTED_ENV}'"

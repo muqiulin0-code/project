@@ -6,10 +6,15 @@ cd "${ROOT_DIR}"
 
 CONDA_ENV="${CONDA_ENV:-pytorch}"
 CONDA_ROOT="${CONDA_ROOT:-${HOME}/anaconda3}"
+CONDA_PYTHON="${CONDA_ROOT}/envs/${CONDA_ENV}/bin/python"
 
 if [[ -n "${PYTHON:-}" ]]; then
   # shellcheck disable=SC2206
   PYTHON_CMD=(${PYTHON})
+elif [[ -x "${CONDA_PYTHON}" ]]; then
+  # Prefer the interpreter path directly. Some shell hooks report the base
+  # interpreter even when `conda run -n ...` is requested.
+  PYTHON_CMD=("${CONDA_PYTHON}")
 elif command -v conda >/dev/null 2>&1; then
   if ! conda env list | awk '{print $1}' | grep -Fxq "${CONDA_ENV}"; then
     echo "conda environment '${CONDA_ENV}' does not exist." >&2
@@ -20,7 +25,7 @@ elif command -v conda >/dev/null 2>&1; then
 else
   # Keep the shared conda interpreter usable in non-login terminals where
   # `conda` is not on PATH. CONDA_ROOT can be overridden for other installs.
-  PYTHON_CMD=("${CONDA_ROOT}/envs/${CONDA_ENV}/bin/python")
+  PYTHON_CMD=("${CONDA_PYTHON}")
 fi
 
 if ! command -v "${PYTHON_CMD[0]}" >/dev/null 2>&1; then
